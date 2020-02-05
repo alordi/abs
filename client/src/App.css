@@ -15,6 +15,11 @@
   letter-spacing: -1px;
   font-size: calc(10px + 5vmin);
   font-weight: bold;
+  margin-top: 40px;
+}
+
+Row {
+  margin: 10px;
 }
 
 .checkhead {
@@ -31,15 +36,17 @@
 }
 
 #rightchecks {
-  width: 300px;
+  width: 250px;
   height: 130px;
   float: left;
+  margin-bottom: 30px;
 }
 
 #leftchecks {
-  width: 300px;
+  width: 250px;
   height: 130px;
   float: left;
+  margin-bottom: 30px;
 }
 
 .App {
@@ -47,10 +54,21 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;  
   color: #FFB612;
   text-align: center;
   font-size: calc(10px + 1.3vmin);
+  min-height: 700px;
+}
+
+.bigcontainer {
+  font-size: calc(10px + 3.0vmin);
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.smallcontainer {
+  font-size: calc(10px + 2.0vmin);
+  text-align: center;
 }
 
 .main {
