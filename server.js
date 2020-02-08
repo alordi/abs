@@ -19,43 +19,7 @@ app.get("/", (req, res, next) => {
 // create a GET route
 app.get('/3x3', (req, res) => {
     var equips = ["Bar", "5 Ball"];
-    while (equips.length < 8){
-        equips.push("na");
-    }
-    var arr = [];
-    var params = Helper.q_3x3_1(equips);
-    docClient.scan(params, function(err, data) {
-        if (err) {
-            console.log("Error");
-        } else {
-        console.log("Success");
-        }
-        var x = rand(data.Items);
-        arr.push(x.Exercise)
-    });
-    var params2 = Helper.q_3x3_2(equips);
-    docClient.scan(params2, function(err, data) {
-        if (err) {
-            console.log("Error");
-        } else {
-        console.log("Success");
-        }
-        var x = rand(data.Items);
-        arr.push(x.Exercise);
-    });
-    var params3 = Helper.q_3x3_3(equips);
-    docClient.scan(params3, function(err, data) {
-        if (err) {
-            console.log("Error");
-        } else {
-        console.log("Success");
-        }
-        var x = rand(data.Items);
-        arr.push(x.Exercise)
-        console.log(arr);
-        res.send(arr);
-    });
-    
+    Helper.get3x3(equips, function(arr){res.send(arr);});
 });
 
 // console.log that your server is up and running
