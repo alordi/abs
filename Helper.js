@@ -48,7 +48,7 @@ function get3x3(equips, callback) {
         arr.push(x.Exercise);
 
         temp = data.Items.filter(function(d){
-            return(d.Area == ("Both" || "Obliques") && d.Difficulty == "Hard");
+            return(d.Area == "Both" || d.Area == "Obliques") && d.Difficulty == "Hard";
         });
         x = rand(temp);
         arr.push(x.Exercise);
