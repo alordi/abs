@@ -4,7 +4,7 @@ var docClient = new AWS.DynamoDB.DocumentClient();
 
 const rand = require('random-item');
 
-function q_3x3(e) {
+function filter_1(e) {
     return {
         TableName : "abs",
         FilterExpression: "Equipment IN (:e1, :e2, :e3, :e4, :e5, :e6, :e7, :e8, :e9)", 
@@ -22,12 +22,26 @@ function q_3x3(e) {
     };
 }
 
+function filter_2() {
+    return {
+        TableName : "abs",
+        FilterExpression: "Equipment IN (:e1, :e2, :e3) AND Difficulty IN (:d1, :d2)", 
+        ExpressionAttributeValues: {
+            ":e1": "na",
+            ":e2": "5 Ball",
+            ":e3": "15 Ball",
+            ":d1": "Easy",
+            ":d2": "Medium"
+        }
+    };
+}
+
 function get3x3(equips, callback) {
     while (equips.length < 9){
         equips.push("na");
     }
     var arr = [];
-    var params = q_3x3(equips);
+    var params = filter_1(equips);
     docClient.scan(params, (err, data) => {
         if (err) {
             console.log("Error");
@@ -48,29 +62,145 @@ function get3x3(equips, callback) {
         arr.push(x.Exercise);
 
         temp = data.Items.filter(function(d){
-            return(d.Area == "Both" || d.Area == "Obliques") && d.Difficulty == "Hard";
+            return((d.Area == "Both" || d.Area == "Obliques") && d.Difficulty == "Hard");
         });
         x = rand(temp);
         arr.push(x.Exercise);
+
         var myJsonString = JSON.stringify(arr);
-        console.log(myJsonString);
         callback(myJsonString);
     });
 }
 
-function sample(e) {
-    return {
-        TableName : "abs",
-        FilterExpression: "Difficulty IN (:d1, :d2) and Area = :area and Equipment = :equip", 
-        ExpressionAttributeValues: {
-            ":d1": "Hard",
-            ":d2": "Medium",
-            ":area": "Lower",
-            ":equip": e
+function get4x2(equips, callback) {
+    while (equips.length < 9){
+        equips.push("na");
+    }
+    var arr = [];
+    var params = filter_1(equips);
+    docClient.scan(params, (err, data) => {
+        if (err) {
+            console.log("Error");
+        } else {
+        console.log("Success");
         }
-    };
+
+        var temp = data.Items.filter(function(d){
+            return(d.Area == "Lower");
+        });
+        var x = rand(temp);
+        arr.push(x.Exercise);
+
+        temp = data.Items.filter(function(d){
+            return(d.Area == "Upper");
+        });
+        x = rand(temp);
+        arr.push(x.Exercise);
+
+        temp = data.Items.filter(function(d){
+            return(d.Area == "Obliques");
+        });
+        x = rand(temp);
+        arr.push(x.Exercise);
+
+        temp = data.Items.filter(function(d){
+            return(d.Area == "Both" || d.Area == "Core");
+        });
+        x = rand(temp);
+        arr.push(x.Exercise);
+
+        var myJsonString = JSON.stringify(arr);
+        callback(myJsonString);
+    });
+}
+
+function get5x2(equips, callback) {
+    while (equips.length < 9){
+        equips.push("na");
+    }
+    var arr = [];
+    var params = filter_1(equips);
+    docClient.scan(params, (err, data) => {
+        if (err) {
+            console.log("Error");
+        } else {
+        console.log("Success");
+        }
+
+        var temp = data.Items.filter(function(d){
+            return(d.Area == "Lower");
+        });
+        var x = rand(temp);
+        arr.push(x.Exercise);
+
+        temp = data.Items.filter(function(d){
+            return(d.Area == "Upper");
+        });
+        x = rand(temp);
+        arr.push(x.Exercise);
+
+        temp = data.Items.filter(function(d){
+            return(d.Area == "Obliques");
+        });
+        x = rand(temp);
+        arr.push(x.Exercise);
+
+        temp = data.Items.filter(function(d){
+            return(d.Area == "Both");
+        });
+        x = rand(temp);
+        arr.push(x.Exercise);
+
+        temp = data.Items.filter(function(d){
+            return(d.Area == "Core");
+        });
+        x = rand(temp);
+        arr.push(x.Exercise);
+
+        var myJsonString = JSON.stringify(arr);
+        callback(myJsonString);
+    });
+}
+
+function getMin(callback) {
+    var arr = [];
+    var params = filter_2();
+    docClient.scan(params, (err, data) => {
+        if (err) {
+            console.log("Error");
+        } else {
+        console.log("Success");
+        }
+
+        var temp = data.Items.filter(function(d){
+            return(d.Area == "Lower");
+        });
+        var x = rand(temp);
+        arr.push(x.Exercise);
+
+        temp = data.Items.filter(function(d){
+            return(d.Area == "Upper");
+        });
+        x = rand(temp);
+        arr.push(x.Exercise);
+
+        temp = data.Items.filter(function(d){
+            return(d.Area == "Obliques");
+        });
+        x = rand(temp);
+        arr.push(x.Exercise);
+
+        temp = data.Items.filter(function(d){
+            return(d.Area == "Both");
+        });
+        x = rand(temp);
+        arr.push(x.Exercise);
+
+        var myJsonString = JSON.stringify(arr);
+        callback(myJsonString);
+    });
 }
 
 module.exports = {
-    q_3x3, get3x3
+    filter_1, filter_2, get3x3, get4x2, get5x2, getMin
 };

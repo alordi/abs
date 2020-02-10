@@ -18,10 +18,22 @@ app.get("/", (req, res, next) => {
 
 // create a GET route
 app.get('/3x3', (req, res) => {
-    console.log(req.query);
     var equips = req.query.equips;
-    console.log(equips);
     Helper.get3x3(equips, function(arr){res.send(arr);});
+});
+
+app.get('/4x2', (req, res) => {
+    var equips = req.query.equips;
+    Helper.get4x2(equips, function(arr){res.send(arr);});
+});
+
+app.get('/5x2', (req, res) => {
+    var equips = req.query.equips;
+    Helper.get5x2(equips, function(arr){res.send(arr);});
+});
+
+app.get('/min', (req, res) => {
+    Helper.getMin(function(arr){res.send(arr);});
 });
 
 // console.log that your server is up and running

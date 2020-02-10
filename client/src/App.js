@@ -29,60 +29,60 @@ function Workouts(props) {
     else if (type === "4x2"){ 
       return <Container className="bigcontainer">
                 <Row>
-                  <Col> 4x2 1 </Col>
+                  <Col> {works[0]} </Col>
                 </Row>
                 <Row>
-                  <Col> 4x2 2 </Col>
+                  <Col> {works[1]} </Col>
                 </Row>
                 <Row>
-                  <Col> 4x2 3 </Col>  
+                  <Col> {works[2]} </Col>  
                 </Row>
                 <Row>
-                  <Col> 4x2 4 </Col>
+                  <Col> {works[3]} </Col>
                 </Row>
             </Container>
     }
     else if (type === "5x2"){ 
       return <Container className="bigcontainer"> 
                 <Row>
-                  <Col> 5x2 1 </Col>
+                  <Col> {works[0]} </Col>
                 </Row>
                 <Row>
-                  <Col> 5x2 2 </Col>
+                  <Col> {works[1]} </Col>
                 </Row>
                 <Row>
-                  <Col> 5x2 3 </Col>
+                  <Col> {works[2]} </Col>
                 </Row>
                 <Row>
-                  <Col> 5x2 4 </Col>
+                  <Col> {works[3]} </Col>
                 </Row>
                 <Row>
-                  <Col> 5x2 5 </Col>
+                  <Col> {works[4]} </Col>
                 </Row>
             </Container>
     }
     else if (type === "4min"){ 
       return <Container className="bigcontainer">
                 <Row>
-                  <Col> 4min 1 (20 sec) </Col>
+                  <Col> {works[0]} (20 sec) </Col>
                 </Row>
                 <Row className="smallcontainer">
                   <Col> 10 sec rest </Col>
                 </Row>
                 <Row>
-                  <Col> 4min 2 (20 sec) </Col>
+                  <Col> {works[1]} (20 sec) </Col>
                 </Row>
                 <Row className="smallcontainer">
                   <Col> 10 sec rest </Col>
                 </Row>
                 <Row>
-                  <Col> 4min 3 (20 sec) </Col>
+                  <Col> {works[2]} (20 sec) </Col>
                 </Row>
                 <Row className="smallcontainer">
                   <Col> 10 sec rest </Col>
                 </Row>
                 <Row>
-                  <Col> 4min 4 (20 sec) </Col>
+                  <Col> {works[3]} (20 sec) </Col>
                 </Row>
                 <Row className="smallcontainer">
                   <Col> 10 sec rest </Col>
@@ -92,25 +92,25 @@ function Workouts(props) {
     else if (type === "6min"){ 
       return <Container className="bigcontainer">
                 <Row>
-                  <Col> 6min 1 (30 sec) </Col>
+                  <Col> {works[0]} (30 sec) </Col>
                 </Row>
                 <Row className="smallcontainer">
                   <Col> 15 sec rest </Col>
                 </Row>
                 <Row>
-                  <Col> 6min 2 (30 sec) </Col>
+                  <Col> {works[1]} (30 sec) </Col>
                 </Row>
                 <Row className="smallcontainer">
                   <Col> 15 sec rest </Col>
                 </Row>
                 <Row>
-                  <Col> 6min 3 (30 sec) </Col>
+                  <Col> {works[2]} (30 sec) </Col>
                 </Row>
                 <Row className="smallcontainer">
                   <Col> 15 sec rest </Col>
                 </Row>
                 <Row>
-                  <Col> 6min 4 (30 sec) </Col>
+                  <Col> {works[3]} (30 sec) </Col>
                 </Row>
                 <Row className="smallcontainer">
                   <Col> 15 sec rest </Col>
@@ -185,21 +185,24 @@ class App extends React.Component {
     }
     this.setState({equips: arr});
 
-
     if (this.state.w3x3){
       await this.callBackend("3x3", this.state.equips);
       this.setState({type: "3x3"});
     }
     else if (this.state.w4x2){
+      await this.callBackend("4x2", this.state.equips);
       this.setState({type: "4x2"});
     }
     else if (this.state.w5x2){
+      await this.callBackend("5x2", this.state.equips);
       this.setState({type: "5x2"});
     }
     else if (this.state.w4min){
+      await this.callBackend("min", this.state.equips);
       this.setState({type: "4min"});
     }
     else if (this.state.w6min){
+      await this.callBackend("min", this.state.equips);
       this.setState({type: "6min"});
     }
     else {
@@ -215,7 +218,6 @@ class App extends React.Component {
             }
           })
           .then(response => {
-            console.log(response.data);
             this.setState({works: response.data});
           })
   }
