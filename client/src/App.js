@@ -5,21 +5,24 @@ import "shards-ui/dist/css/shards.min.css";
 import { FormCheckbox } from "shards-react";
 import { Button } from "shards-react";
 import { Container, Row, Col } from "shards-react";
+import axios from 'axios'
+
 
 function Workouts(props) {
   const begin = props.begin;
   const type = props.type;
+  const works = props.works;
   if (begin) {
     if (type === "3x3"){ 
       return <Container className="bigcontainer">
                 <Row>
-                  <Col> 3x3 1 </Col>
+                  <Col> {works[0]} </Col>
                 </Row>
                 <Row>
-                  <Col> 3x3 2 </Col>
+                  <Col> {works[1]} </Col>
                 </Row>
                 <Row>
-                  <Col> 3x3 3 </Col>
+                  <Col> {works[2]} </Col>
                 </Row>
             </Container>
     }
@@ -130,6 +133,7 @@ class App extends React.Component {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.generateWorkouts = this.generateWorkouts.bind(this);
+    this.callBackend = this.callBackend.bind(this);
     this.state = {
       bar: false,
       plate: false,
@@ -146,12 +150,44 @@ class App extends React.Component {
       w6min: false,
       started: false,
       type: "3x3",
+      equips: ["na"],
+      works: []
     };
   }
 
-  generateWorkouts() {
+  async generateWorkouts() {
+    var arr = ["na"];
     this.setState({started: true});
+    
+    if (this.state.bar) {
+      arr.push("Bar");
+    }
+    if (this.state.plate) {
+      arr.push("Plate");
+    }
+    if (this.state.roller) {
+      arr.push("Ab Roller");
+    }
+    if (this.state.smedball) {
+      arr.push("5 Ball");
+    }
+    if (this.state.lmedball) {
+      arr.push("15 Ball");
+    }
+    if (this.state.bigball) {
+      arr.push("Big Ball");
+    }
+    if (this.state.decline) {
+      arr.push("Decline Bench");
+    }
+    if (this.state.hyperbench) {
+      arr.push("HE Bench");
+    }
+    this.setState({equips: arr});
+
+
     if (this.state.w3x3){
+      await this.callBackend("3x3", this.state.equips);
       this.setState({type: "3x3"});
     }
     else if (this.state.w4x2){
@@ -171,23 +207,18 @@ class App extends React.Component {
     }
   }
 
-  componentDidMount() {
-    // Call our fetch function below once the component mounts
-    this.callBackendAPI()
-      .then(res => this.setState({ data: res.express }))
-      .catch(err => console.log(err));
+  async callBackend(format, equips){
+    await axios
+          .get('/' + format, {
+            params: {
+              equips: equips
+            }
+          })
+          .then(response => {
+            console.log(response.data);
+            this.setState({works: response.data});
+          })
   }
-  // Fetches our GET route from the Express server. (Note the route we are fetching matches the GET route from server.js
-  callBackendAPI = async () => {
-    const response = await fetch('/express_backend');
-    console.log(response);
-    const body = await response.json();
-
-    if (response.status !== 200) {
-      throw Error(body.message) 
-    }
-    return body;
-  };
 
   handleChange(e, equip) {
     const newState = {};
@@ -310,7 +341,7 @@ class App extends React.Component {
             checked={this.state.w6min}
             onChange={e => this.handleChangeWorkout(e, "w6min")}
           >
-          5 min
+          6 min
           </FormCheckbox>
         </div>
         <div>
@@ -318,7 +349,7 @@ class App extends React.Component {
             Generate Workout!
           </Button>
         </div>
-        <Workouts begin={this.state.started} type={this.state.type}/>
+        <Workouts begin={this.state.started} type={this.state.type} works={this.state.works}/>
       </div>
     );
   }

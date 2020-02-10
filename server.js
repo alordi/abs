@@ -18,7 +18,9 @@ app.get("/", (req, res, next) => {
 
 // create a GET route
 app.get('/3x3', (req, res) => {
-    var equips = ["Bar", "5 Ball"];
+    console.log(req.query);
+    var equips = req.query.equips;
+    console.log(equips);
     Helper.get3x3(equips, function(arr){res.send(arr);});
 });
 
