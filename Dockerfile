@@ -18,4 +18,4 @@ USER app
 
 SHELL [ "bash", "-c" ]
 
-CMD ["node", "Server.js"]
+CMD ["node", "server.js"]
