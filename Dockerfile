@@ -1,7 +1,5 @@
 FROM node:slim
 
-ENV DOMAIN="abs.austinsapp.com"
-
 COPY . /app/
 
 WORKDIR /app
