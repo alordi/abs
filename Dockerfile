@@ -14,7 +14,7 @@ RUN apt update -y \
     && npm run build \
     && chown -R app:app /app 
 
-EXPOSE 80
+EXPOSE 8080
 
 USER app
 
